@@ -1,0 +1,30 @@
+import React from 'react'
+import { Text, View, Image, TouchableOpacity } from 'react-native'
+
+function HomeScreen() {
+    return (
+        <View style={{ margin: 30 }}>
+            <View style={{ backgroundColor: "lightgrey", margin: 25, height: 240 }}>
+                <View style={{ alignContent: "center", alignSelf: "center" }}>
+                    {/* <Image source={require("../asset/logo.png")} style={{height:220,width:150}}/> */}
+                </View>
+            </View>
+            <View style={{ margin: 24, alignItems: "center" }}>
+                <Text style={{ fontWeight: 900, color: "black", fontSize: 20 }}>Welcome to ChatBuck</Text>
+            </View>
+            <View style={{ margin: 24, alignItems: "center" }}>
+                <Text style={{ color: "black", fontSize: 15 }}>Connectong you to Ethereum and the Decentralized Web</Text>
+            </View>
+            <View style={{ margin: 24, alignItems: "center" }}>
+                <Text style={{ color: "black", fontSize: 15 }}>We are happy for you</Text>
+            </View>
+
+            <TouchableOpacity style={{ height: 50, width: 200, marginLeft: 60, marginTop: 20, backgroundColor: '#0047AB', borderRadius: 20, marginBottom: 10 }}>
+                <Text style={{ textAlign: 'center', marginTop: 15, color: 'white', fontSize: 15, }}>Get Started</Text>
+            </TouchableOpacity>
+
+        </View>
+    )
+}
+
+export default HomeScreen
