@@ -10,8 +10,8 @@ function App() {
   return (
     <>
       {/* <CreateWallet />
-      <HomeScreen />
-      <Password /> */}
+      <HomeScreen />*/}
+      {/* <Password />  */}
       {/* <Recovery /> */}
       {/* <Secret /> */}
       {/* <Wall /> */}
