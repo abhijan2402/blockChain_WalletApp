@@ -14,8 +14,10 @@ function App() {
       <Password /> */}
       {/* <Recovery /> */}
       {/* <Secret /> */}
-      <Wall />
+      {/* <Wall /> */}
       {/* <PolyGon /> */}
+      {/* <HomeScreen /> */}
+      <CreateWallet />
     </>
   )
 }
