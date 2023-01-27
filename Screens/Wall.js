@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Button, LogBox, Image, ScrollView, TextInput, ActivityIndicator } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
 function Wall() {
     const [Assets, setAssets] = useState(true)
     const [Activitiies, setActivitiies] = useState(false)
+    const [TrasactionData, setTrasactionData] = useState([])
     const Active = () => {
         console.log("i am Active")
         setAssets(true)
@@ -14,6 +15,23 @@ function Wall() {
         console.log("i am disactove")
         setActivitiies(true)
         setAssets(false)
+    }
+    useEffect(() => {
+        GetTransactionData();
+    }, [])
+
+    const GetTransactionData = async () => {
+        try {
+            const response = await fetch('https://ddc8-103-159-45-133.in.ngrok.io/wallet', {
+                method: 'Post',
+            });
+            const json = await response.json();
+            let Newdata = json.chain
+            console.log(Newdata)
+            setTrasactionData(Newdata)
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <View style={styles.MainView}>

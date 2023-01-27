@@ -16,6 +16,7 @@ function PolyGon() {
             });
             const json = await response.json();
             let Newdata = json.chain
+            console.log(Newdata)
             setTrasactionData(Newdata)
         } catch (error) {
             console.log(error)
