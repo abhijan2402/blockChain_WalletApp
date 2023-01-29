@@ -9,7 +9,7 @@ function CreateWallet({ navigation }) {
             <View style={{ marginTop: 50 }}>
                 <Text style={{ fontWeight: "900", color: "black", fontSize: 24 }}>New to Meta Mask?</Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("Third")} style={{ borderColor: "black", borderWidth: 1, borderRadius: 12, height: windowheight / 4, width: windowWidth / 1.4, backgroundColor: 'white', position: 'absolute', zIndex: 88, marginTop: windowheight / 4, alignContent: "center" }} >
+            <TouchableOpacity onPress={() => navigation.navigate("Second")} style={{ borderColor: "black", borderWidth: 1, borderRadius: 12, height: windowheight / 4, width: windowWidth / 1.4, backgroundColor: 'white', position: 'absolute', zIndex: 88, marginTop: windowheight / 4, alignContent: "center" }} >
                 <Image source={require("../asset/plus.png")} style={{ height: windowheight / 25, width: windowWidth / 12, alignSelf: "center", marginTop: 12 }} />
                 <View>
                     <Text style={{ textAlign: "center", marginTop: 30, color: "black" }}>Yes,let's get set up</Text>

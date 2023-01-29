@@ -44,6 +44,7 @@ function Secret({ navigation }) {
                 await AsyncStorage.setItem('RecoveryData10', SetArray[9])
                 await AsyncStorage.setItem('RecoveryData11', SetArray[10])
                 await AsyncStorage.setItem('RecoveryData12', SetArray[11])
+                setDataToAsync()
             }
             else {
                 const SetArray1 = []
@@ -119,7 +120,7 @@ function Secret({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.customButton, { backgroundColor: "#4658E6" }]}
-                    onPress={() => navigation.navigate("Bottomtab")}
+                    onPress={() => navigation.navigate("sixth")}
                 >
                     <Text style={{ color: "white", fontWeight: 'bold', }}>Next</Text>
                 </TouchableOpacity>

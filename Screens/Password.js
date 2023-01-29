@@ -8,10 +8,12 @@ function Password({ navigation }) {
             <TextInput
                 style={styles.textInput}
                 placeholder='New Password'
+                placeholderTextColor={"black"}
             />
             <TextInput
                 style={styles.textInput}
                 placeholder='Confirm Password'
+                placeholderTextColor={"black"}
             />
             <TouchableOpacity
                 onPress={() => navigation.navigate("Fourth")}

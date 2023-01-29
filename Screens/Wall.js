@@ -1,12 +1,22 @@
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Button, LogBox, Image, ScrollView, TextInput, ActivityIndicator } from 'react-native';
+import React , { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, LogBox, Image, ScrollView, TextInput, RefreshControl } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
-function Wall() {
+
+function Wall({navigation}) {
     const [Assets, setAssets] = useState(true)
     const [Activitiies, setActivitiies] = useState(false)
     const [TrasactionData, setTrasactionData] = useState([])
+
+    const [amount,setAmount]=useState('');
+    const [showModal,setShowModal]=useState(false);
+    const [modalType,setModalType]=useState("details");
+    const [refreshing, setRefreshing] = useState(false);
+
+    const [receptantaddress,setreceptantaddress]=useState('')
+    const [value,setvalue]=useState('')
+
     const Active = () => {
         console.log("i am Active")
         setAssets(true)
@@ -19,65 +29,84 @@ function Wall() {
     }
     useEffect(() => {
         GetTransactionData();
-        GetAmount();
+        // GetAmount();
+        get_user_amt();
     }, [])
 
-    const GetTransactionData = async () => {
+    const get_user_amt=async()=>{  
+        console.log(JSON.parse(TrasactionData).blockchain_address);
+        fetch('https://dade-103-175-180-34.in.ngrok.io/wallet/amount',{
+            method:"GET",
+            body:JSON.stringify({
+                blockchain_address:"1KFWtKaGm5yv5Y5qfKP5osCVQSScc18nbn"
+            })
+        })
+        .then((res)=>res.json())
+        .then(res=>console.log(res))
+        .catch(e=>{
+            console.log(e)
+        })
+    }
 
+    const sendData=async()=>{
+        try {
+            if(receptantaddress==='' || value===''){
+                throw "Enter all fields"
+            }
+            fetch('https://dade-103-175-180-34.in.ngrok.io/transaction',{
+                method:"POST",
+                body:JSON.stringify({
+                    sender_private_key:TrasactionData.private_key,
+                    sender_blockchain_address: TrasactionData.blockchain_address,
+                    recipient_blockchain_address:"1KFWtKaGm5yv5Y5qfKP5osCVQSScc18nbn",
+                    sender_public_key:TrasactionData.public_key,
+                    value:value
+                })
+            })
+            .then((res)=>res.json())
+            .then(res=>alert(res.message))
+            .catch(e=>{
+                console.log(e)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const GetTransactionData = async () => {
         try {
             const value1 = await AsyncStorage.getItem('Newdata')
-            console.log(value1)
+            console.log(value1);
             if (value1 == null) {
-                console.log("i am in if")
-                const response = await fetch('https://bd49-103-175-180-34.in.ngrok.io/wallet', {
+                const response = await fetch('https://dade-103-175-180-34.in.ngrok.io/wallet', {
                     method: 'Post',
                 });
                 const json = await response.json();
+                setTrasactionData(json)
                 let Newdata = JSON.stringify(json)
-                console.log("hey i am the best", Newdata)
-                console.log("i am transaction data", Newdata)
-                setTrasactionData(Newdata)
+                console.log(json);
                 await AsyncStorage.setItem('Newdata', Newdata);
             }
             else {
-                console.log("i am in else")
                 const data0 = await AsyncStorage.getItem('Newdata');
-                console.log(data0)
                 let Main = JSON.parse(data0)
-                console.log("i am the only m", Main)
                 setTrasactionData(Main)
             }
         } catch (error) {
             console.log(error)
         }
     }
-    const GetAmount = async () => {
-        try {
-            console.log("i am being calle")
-            const data0 = await AsyncStorage.getItem('Newdata');
-            console.log(data0, "I am athe amount")
-            // const response = await fetch('https://bd49-103-175-180-34.in.ngrok.io/amount', {
-            //     method: 'get',
-            //     body: {
-            //         blockchain_address:
-            //     },
-            // });
-            // const json = await response.json();
-            // let Newdata1 = json
-            // console.log(Newdata1)
-            // setTrasactionData(Newdata)
-        } catch (error) {
-            console.log(error)
-        }
-    }
     return (
-        <View style={styles.MainView}>
+        <ScrollView style={styles.MainView}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={get_user_amt} />
+            }
+        >
             <View style={styles.HeaderView}>
                 <Text style={styles.AccountText1}>Main Account</Text>
-                <Text style={styles.AccountText}>Amount : u87657890878</Text>
-                <Text style={styles.AccountText1}>blockchain_address- {TrasactionData.blockchain_address}</Text>
-                <Text style={styles.AccountText1}>private_key- {TrasactionData.private_key}</Text>
-                <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
+                <Text style={styles.AccountText}>
+                    Amount : {amount} 
+                </Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
                 <View style={styles.OptionSection}>
@@ -88,17 +117,35 @@ function Wall() {
                     <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/128/3682/3682321.png' }} style={styles.imgLogo} />
                     <Text style={{ fontSize: 15, color: "black", fontWeight: "700", marginVertical: 5 }}>Send</Text>
                 </View>
-                <View style={styles.OptionSection}>
+                <TouchableOpacity onPress={()=>navigation.navigate('Bottomtab')} style={styles.OptionSection}>
                     <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/128/5972/5972857.png' }} style={styles.imgLogo} />
                     <Text style={{ fontSize: 15, color: "black", fontWeight: "700", marginVertical: 5 }}>Snap</Text>
-                </View>
+                </TouchableOpacity>
+            </View>
+            <View style={{flexDirection:"row",width:"100%",justifyContent:"space-around"}}>
+                <TouchableOpacity style={styles.textButton} onPress={()=>{
+                    setModalType('details')
+                    setShowModal(true)
+                }}>
+                    <Text style={{color:"black",fontWeight:"500"}}>
+                        show details
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.textButton} onPress={()=>{
+                    setModalType("inputs")
+                    setShowModal(true)
+                }}>
+                    <Text style={{color:"black",fontWeight:"500"}}>
+                        open Inputs
+                    </Text>
+                </TouchableOpacity>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
                 <TouchableOpacity style={[styles.PartitionView, { borderBottomWidth: Assets ? 2 : 0 }]} onPress={Active}>
-                    <Text>Activity</Text>
+                    <Text style={{color:"black"}}>Activity</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.PartitionView, { borderBottomWidth: Activitiies ? 2 : 0 }]} onPress={DisActive}>
-                    <Text>Assests</Text>
+                    <Text style={{color:"black"}}>Assests</Text>
                 </TouchableOpacity>
             </View>
             {
@@ -111,7 +158,59 @@ function Wall() {
                     </View>
 
             }
-        </View>
+            <Modal visible={showModal} animationType='slide' transparent={true}>
+                <View style={styles.modeOuter}>
+                    <View style={styles.innnerModel}>
+                        
+                        {
+                            modalType==='details'?
+                            <>
+                                <Text style={styles.AccountText1}>blockchain_address- {TrasactionData.blockchain_address}</Text>
+                                <Text style={styles.AccountText1}>private_key- {TrasactionData.private_key}</Text>
+                                <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
+                            </>:
+                            <>
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholderTextColor={"black"}
+                                    value={TrasactionData.blockchain_address}
+                                    />
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholderTextColor={"black"}
+                                    value={TrasactionData.private_key}
+                                />
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholder='sender public key'
+                                    placeholderTextColor={"black"}
+                                    value={TrasactionData.public_key}
+                                    // onChangeText={(sender)=>setsenderpublickey(sender)}
+                                />
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholder='receptant address'
+                                    placeholderTextColor={"black"}
+                                    onChangeText={(receptant)=>setreceptantaddress(receptant)}
+                                />
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholder='value'
+                                    placeholderTextColor={"black"}
+                                    onChangeText={(value)=>setvalue(value)}
+                                />
+                            </>
+                        }
+
+                        <TouchableOpacity style={styles.textButton} onPress={()=>setShowModal(false)}>
+                            <Text style={{color:"black"}}>
+                                Hide Details
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
@@ -125,7 +224,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: "black",
         fontWeight: "800",
-        marginVertical: 5
+        marginVertical: 10,
     },
     AccountText: {
         textAlign: "center",
@@ -162,7 +261,49 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 10,
         borderBottomColor: "blue"
-    }
+    },
+    modeOuter: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:"transparent"
+    },
+    innnerModel: {
+        backgroundColor: 'white',
+        position: 'absolute',
+        bottom:0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: windoWidth,
+        padding:5,
+        backgroundColor:"white",
+        padding: 20,
+        borderTopLeftRadius:10,
+        borderTopRightRadius:10,
+        elevation:10
+    },
+    textButton:{
+        backgroundColor:"white",
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding:10,
+        width:windoWidth/2.5,
+        borderRadius:5,
+        marginHorizontal:10,
+        marginTop:10,
+        elevation:5
+    },
+    textInput: {
+        backgroundColor: "white",
+        color: "black",
+        height: 50,
+        width: windoWidth - 40,
+        marginTop: 30,
+        elevation: 10,
+        paddingHorizontal: 10,
+        fontWeight: "bold",
+        borderRadius: 5
+    },
 })
 
 export default Wall

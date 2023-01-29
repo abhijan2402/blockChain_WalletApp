@@ -53,8 +53,8 @@ function Recovery({ navigation }) {
             <View>
                 <TextInput placeholder='Password' style={[styles.TextFieldView, { marginHorizontal: 20, width: windoWidth / 1.3 }]} />
                 <TextInput placeholder='Password' style={[styles.TextFieldView, { marginHorizontal: 20, width: windoWidth / 1.3 }]} />
-                <TouchableOpacity style={styles.MainBtn}>
-                    <Text style={styles.MainBtnText} onPress={() => navigation.navigate("Fifth")}>Create</Text>
+                <TouchableOpacity style={styles.MainBtn} onPress={()=>navigation.navigate('Fifth')}>
+                    <Text style={styles.MainBtnText} >Create</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
