@@ -6,7 +6,7 @@ function HomeScreen({ navigation }) {
         <View style={{ margin: 100, alignSelf: "center" }}>
             {/* <View style={{ backgroundColor: "lightgrey", margin: 25, height: 240 }}> */}
             <View style={{ alignContent: "center", alignSelf: "center" }}>
-                <Image source={require("../asset/logo.png")} style={{ height: 220, width: 150 }} />
+                <Image source={require("../asset/CB_Logo.png")} style={{ height: 280, width: 170 }} />
                 {/* </View> */}
             </View>
             <View style={{ marginTop: 30 }}>

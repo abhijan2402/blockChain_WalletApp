@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, LogBox, Image, ScrollView, TextInput } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
-function Recovery() {
+function Recovery({ navigation }) {
     return (
         <ScrollView style={styles.MainView}>
             <View style={styles.HeaderView}>
@@ -54,7 +54,7 @@ function Recovery() {
                 <TextInput placeholder='Password' style={[styles.TextFieldView, { marginHorizontal: 20, width: windoWidth / 1.3 }]} />
                 <TextInput placeholder='Password' style={[styles.TextFieldView, { marginHorizontal: 20, width: windoWidth / 1.3 }]} />
                 <TouchableOpacity style={styles.MainBtn}>
-                    <Text style={styles.MainBtnText}>Create</Text>
+                    <Text style={styles.MainBtnText} onPress={() => navigation.navigate("Fifth")}>Create</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

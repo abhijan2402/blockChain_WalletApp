@@ -11,24 +11,24 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const App = () => {
-        const [user, setuser] = useState(false);
+        const [user, setuser] = useState(true);
         const Stack = createNativeStackNavigator();
         return (
-          <NavigationContainer>
-            {
-                user ?
-                <Stack.Navigator initialRouteName='Second' screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name='Second' component={HomeScreen} />
-                  <Stack.Screen name='First' component={CreateWallet} />
-                  <Stack.Screen name='Third' component={Password} />
-                  <Stack.Screen name='Fourth' component={Recovery} />
-                  <Stack.Screen name='Fifth' component={Secret} />
-                </Stack.Navigator> :
-                <Stack.Navigator initialRouteName='Bottomtab' screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name='Bottomtab' component={Bottomtab} />
-                </Stack.Navigator>
-            }
-          </NavigationContainer>
+                <NavigationContainer>
+                        {
+                                user ?
+                                        <Stack.Navigator initialRouteName='Second' screenOptions={{ headerShown: false }}>
+                                                <Stack.Screen name='Second' component={HomeScreen} />
+                                                <Stack.Screen name='First' component={CreateWallet} />
+                                                <Stack.Screen name='Third' component={Password} />
+                                                <Stack.Screen name='Fourth' component={Recovery} />
+                                                <Stack.Screen name='Fifth' component={Secret} />
+                                        </Stack.Navigator> :
+                                        <Stack.Navigator initialRouteName='Bottomtab' screenOptions={{ headerShown: false }}>
+                                                <Stack.Screen name='Bottomtab' component={Bottomtab} />
+                                        </Stack.Navigator>
+                        }
+                </NavigationContainer>
         );
 };
 

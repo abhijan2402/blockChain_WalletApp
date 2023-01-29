@@ -1,4 +1,4 @@
-import React, { useEffect , useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get('window');
@@ -6,14 +6,14 @@ const SetArray = [];
 function Secret({ navigation }) {
     const [newArray, setnewArray] = useState([])
     const [updatedarray, setupdatedarray] = useState([])
-    useEffect(()=>{
+    useEffect(() => {
         for (i = 0; i < 12; i++) {
             if (i < 12) {
                 makeid(5);
             }
         }
         setDataToAsync();
-    },[])
+    }, [])
 
     const setDataToAsync = async () => {
         try {
@@ -105,8 +105,8 @@ function Secret({ navigation }) {
             <View style={styles.stringsConatainer}>
                 {
                     updatedarray.map((item) => (
-                        <View style={{backgroundColor:"white",width:'25%',height:40,margin:5, elevation: 5,alignItems: 'center',justifyContent: 'center',borderRadius:4}}>
-                            <Text style={{ fontSize: 15,color:"black" }}>{item}</Text>
+                        <View style={{ backgroundColor: "white", width: '25%', height: 40, margin: 5, elevation: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
+                            <Text style={{ fontSize: 15, color: "black" }}>{item}</Text>
                         </View>
                     ))
                 }
