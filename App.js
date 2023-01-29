@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const App = () => {
-        const [user, setuser] = useState(true);
+        const [user, setuser] = useState(false);
         const Stack = createNativeStackNavigator();
         return (
                 <NavigationContainer>

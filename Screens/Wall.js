@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Button, LogBox, Image, ScrollView, TextInput, ActivityIndicator } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 function Wall() {
     const [Assets, setAssets] = useState(true)
     const [Activitiies, setActivitiies] = useState(false)
@@ -18,17 +19,53 @@ function Wall() {
     }
     useEffect(() => {
         GetTransactionData();
+        GetAmount();
     }, [])
 
     const GetTransactionData = async () => {
+
         try {
-            const response = await fetch('https://ddc8-103-159-45-133.in.ngrok.io/wallet', {
-                method: 'Post',
-            });
-            const json = await response.json();
-            let Newdata = json.chain
-            console.log(Newdata)
-            setTrasactionData(Newdata)
+            const value1 = await AsyncStorage.getItem('Newdata')
+            console.log(value1)
+            if (value1 == null) {
+                console.log("i am in if")
+                const response = await fetch('https://bd49-103-175-180-34.in.ngrok.io/wallet', {
+                    method: 'Post',
+                });
+                const json = await response.json();
+                let Newdata = JSON.stringify(json)
+                console.log("hey i am the best", Newdata)
+                console.log("i am transaction data", Newdata)
+                setTrasactionData(Newdata)
+                await AsyncStorage.setItem('Newdata', Newdata);
+            }
+            else {
+                console.log("i am in else")
+                const data0 = await AsyncStorage.getItem('Newdata');
+                console.log(data0)
+                let Main = JSON.parse(data0)
+                console.log("i am the only m", Main)
+                setTrasactionData(Main)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const GetAmount = async () => {
+        try {
+            console.log("i am being calle")
+            const data0 = await AsyncStorage.getItem('Newdata');
+            console.log(data0, "I am athe amount")
+            // const response = await fetch('https://bd49-103-175-180-34.in.ngrok.io/amount', {
+            //     method: 'get',
+            //     body: {
+            //         blockchain_address:
+            //     },
+            // });
+            // const json = await response.json();
+            // let Newdata1 = json
+            // console.log(Newdata1)
+            // setTrasactionData(Newdata)
         } catch (error) {
             console.log(error)
         }
@@ -38,6 +75,9 @@ function Wall() {
             <View style={styles.HeaderView}>
                 <Text style={styles.AccountText1}>Main Account</Text>
                 <Text style={styles.AccountText}>Amount : u87657890878</Text>
+                <Text style={styles.AccountText1}>blockchain_address- {TrasactionData.blockchain_address}</Text>
+                <Text style={styles.AccountText1}>private_key- {TrasactionData.private_key}</Text>
+                <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
                 <View style={styles.OptionSection}>
@@ -93,8 +133,15 @@ const styles = StyleSheet.create({
         color: "black",
         fontWeight: "800"
     },
+    AccountText1: {
+        textAlign: "center",
+        fontSize: 12,
+        color: "black",
+        fontWeight: "600",
+        marginHorizontal: 10
+    },
     HeaderView: {
-        height: windoHeight / 13,
+        height: windoHeight / 5,
         // borderWidth: 1,
         justifyContent: "center"
     },

@@ -31,7 +31,7 @@ const Bottomtab = () => {
       <Tab.Screen name="Home" component={Wall} options={{
         tabBarIcon: ({ focused }) => (
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: focused ? '#047BD5' : 'black', fontFamily: "SourceSansPro-Regular" }}>Polygon</Text>
+            <Text style={{ color: focused ? '#047BD5' : 'black', fontFamily: "SourceSansPro-Regular" }}>Wallet</Text>
           </View>
         )
       }} />
@@ -39,7 +39,7 @@ const Bottomtab = () => {
       <Tab.Screen name='Categories' component={PolyGon} options={{
         tabBarIcon: ({ focused }) => (
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: focused ? '#047BD5' : 'black', textAlign: "center", fontFamily: "SourceSansPro-Regular" }}>Wallet</Text>
+            <Text style={{ color: focused ? '#047BD5' : 'black', textAlign: "center", fontFamily: "SourceSansPro-Regular" }}>PolyGon</Text>
           </View>
         )
       }}

@@ -11,7 +11,7 @@ function PolyGon() {
 
     const GetTransactionData = async () => {
         try {
-            const response = await fetch('https://ddc8-103-159-45-133.in.ngrok.io/chain', {
+            const response = await fetch('https://bd49-103-175-180-34.in.ngrok.io/chain', {
                 method: 'get',
             });
             const json = await response.json();
