@@ -16,6 +16,7 @@ function Wall({ navigation }) {
 
     const [receptantaddress, setreceptantaddress] = useState('')
     const [value, setvalue] = useState('')
+    const [MainAmount, setMainAmount] = useState(0)
 
     const Active = () => {
         console.log("i am Active")
@@ -30,15 +31,18 @@ function Wall({ navigation }) {
     useEffect(() => {
         GetTransactionData();
         // GetAmount();
-        // get_user_amt();
+        get_user_amt();
     }, [])
 
     const get_user_amt = async () => {
         console.log(TrasactionData.blockchain_address);
         try {
-            const response = await fetch(`https://4519-103-175-180-34.in.ngrok.io/wallet/amount?blockchain_address=${TrasactionData.blockchain_address}`);
+            const response = await fetch(`https://8887-103-175-180-34.in.ngrok.io/wallet/amount?blockchain_address=${TrasactionData.blockchain_address}`);
             const json = await response.json();
             console.log(json);
+            let amount = json.amount;
+            setMainAmount(amount)
+
         } catch (error) {
             console.log(error);
         }
@@ -49,7 +53,7 @@ function Wall({ navigation }) {
             if (receptantaddress === '' || value === '') {
                 throw "Enter all fields"
             }
-            fetch('https://4519-103-175-180-34.in.ngrok.io /transaction', {
+            fetch('https://8887-103-175-180-34.in.ngrok.io/transaction', {
                 method: "POST",
                 body: JSON.stringify({
                     sender_private_key: TrasactionData.private_key,
@@ -74,7 +78,7 @@ function Wall({ navigation }) {
             const value1 = await AsyncStorage.getItem('Newdata')
             console.log(value1);
             if (value1 == null) {
-                const response = await fetch('https://dade-103-175-180-34.in.ngrok.io/wallet', {
+                const response = await fetch('https://8887-103-175-180-34.in.ngrok.io/wallet', {
                     method: 'Post',
                 });
                 const json = await response.json();
@@ -103,7 +107,7 @@ function Wall({ navigation }) {
             <View style={styles.HeaderView}>
                 <Text style={styles.AccountText1}>Main Account</Text>
                 <Text style={styles.AccountText}>
-                    Amount : {amount}
+                    Amount : {MainAmount}
                 </Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
@@ -158,9 +162,9 @@ function Wall({ navigation }) {
                         {
                             modalType === 'details' ?
                                 <>
-                                    <Text style={styles.AccountText1}>blockchain_address- {TrasactionData.blockchain_address}</Text>
-                                    <Text style={styles.AccountText1}>private_key- {TrasactionData.private_key}</Text>
-                                    <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
+                                    <Text style={styles.AccountText2}>blockchain_address- {TrasactionData.blockchain_address}</Text>
+                                    <Text style={styles.AccountText2}>private_key- {TrasactionData.private_key}</Text>
+                                    <Text style={styles.AccountText2}>public_key- {TrasactionData.public_key}</Text>
                                 </> :
                                 <>
                                     <TextInput
@@ -211,9 +215,9 @@ const styles = StyleSheet.create({
         color: "black",
         fontWeight: "800"
     },
-    AccountText1: {
+    AccountText2: {
         textAlign: "center",
-        fontSize: 12,
+        fontSize: 13,
         color: "black",
         fontWeight: "600",
         marginHorizontal: 10
