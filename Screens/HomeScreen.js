@@ -12,9 +12,7 @@ function HomeScreen({ navigation }) {
             <View style={{ marginTop: 30 }}>
                 <Text style={{ fontWeight: "900", color: "black", fontSize: 20 }}>Welcome to ChatBuck</Text>
             </View>
-            <View style={{}}>
-                <Text style={{ color: "black", fontSize: 15 }}>Connectong you to Ethereum and the Decentralized Web</Text>
-            </View>
+           
             <View style={{ margin: 24, alignItems: "center" }}>
                 <Text style={{ color: "black", fontSize: 15 }}>We are happy for you</Text>
             </View>

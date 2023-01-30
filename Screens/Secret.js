@@ -96,12 +96,12 @@ function Secret({ navigation }) {
     }
     return (
         <View style={styles.container}>
-            <Text style={{ color: "black", fontWeight: "bold", fontSize: 30 }}>Secret Recovery Phase</Text>
+            <Text style={{ color: "black", fontWeight: "bold", fontSize: 30 }}>Secret CB token</Text>
             <Text style={{ color: "black", fontWeight: "bold", fontSize: 15, width: '80%', textAlign: "center", margin: 20, }}>
-                Your secret recovery phase makes it easy to back up and restore your account
+                Your secret CB token makes it easy to back up and restore your account
             </Text>
             <Text style={{ color: "black", fontWeight: "bold", fontSize: 15, width: '90%', textAlign: "center", margin: 20, }}>
-                Warning: Never disclosure your secret Recovery Phase. Anymore this phase can take your Ether forever
+                Warning: Never disclosure your secret CB token. Anymore this phase can take your Ether forever
             </Text>
             <View style={styles.stringsConatainer}>
                 {

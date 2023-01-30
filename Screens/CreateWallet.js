@@ -7,7 +7,7 @@ function CreateWallet({ navigation }) {
         <View style={{ alignItems: "center", height: windowheight, backgroundColor: "white" }}>
 
             <View style={{ marginTop: 50 }}>
-                <Text style={{ fontWeight: "900", color: "black", fontSize: 24 }}>New to Meta Mask?</Text>
+                <Text style={{ fontWeight: "900", color: "black", fontSize: 24 }}>New to Cubane?</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate("Third")} style={{ borderColor: "black", borderWidth: 1, borderRadius: 12, height: windowheight / 4, width: windowWidth / 1.4, backgroundColor: 'white', position: 'absolute', zIndex: 88, marginTop: windowheight / 4, alignContent: "center" }} >
                 <Image source={require("../asset/plus.png")} style={{ height: windowheight / 25, width: windowWidth / 12, alignSelf: "center", marginTop: 12 }} />
