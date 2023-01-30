@@ -39,7 +39,7 @@ const Bottomtab = () => {
       <Tab.Screen name='Categories' component={PolyGon} options={{
         tabBarIcon: ({ focused }) => (
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: focused ? '#047BD5' : 'black', textAlign: "center", fontFamily: "SourceSansPro-Regular" }}>PolyGon</Text>
+            <Text style={{ color: focused ? '#047BD5' : 'black', textAlign: "center", fontFamily: "SourceSansPro-Regular" }}>Cubane</Text>
           </View>
         )
       }}

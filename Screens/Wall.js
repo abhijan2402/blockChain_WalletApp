@@ -30,22 +30,18 @@ function Wall({ navigation }) {
     useEffect(() => {
         GetTransactionData();
         // GetAmount();
-        get_user_amt();
+        // get_user_amt();
     }, [])
 
     const get_user_amt = async () => {
-        console.log(JSON.parse(TrasactionData).blockchain_address);
-        fetch('https://dade-103-175-180-34.in.ngrok.io/wallet/amount', {
-            method: "GET",
-            body: JSON.stringify({
-                blockchain_address: "1KFWtKaGm5yv5Y5qfKP5osCVQSScc18nbn"
-            })
-        })
-            .then((res) => res.json())
-            .then(res => console.log(res))
-            .catch(e => {
-                console.log(e)
-            })
+        console.log(TrasactionData.blockchain_address);
+        try {
+            const response = await fetch(`https://4519-103-175-180-34.in.ngrok.io/wallet/amount?blockchain_address=${TrasactionData.blockchain_address}`);
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const sendData = async () => {
@@ -53,7 +49,7 @@ function Wall({ navigation }) {
             if (receptantaddress === '' || value === '') {
                 throw "Enter all fields"
             }
-            fetch('https://dade-103-175-180-34.in.ngrok.io/transaction', {
+            fetch('https://4519-103-175-180-34.in.ngrok.io /transaction', {
                 method: "POST",
                 body: JSON.stringify({
                     sender_private_key: TrasactionData.private_key,
@@ -86,10 +82,12 @@ function Wall({ navigation }) {
                 let Newdata = JSON.stringify(json)
                 console.log(json);
                 await AsyncStorage.setItem('Newdata', Newdata);
+                get_user_amt(json.blockchain_address)
             }
             else {
                 const data0 = await AsyncStorage.getItem('Newdata');
                 let Main = JSON.parse(data0)
+                get_user_amt(Main.blockchain_address)
                 setTrasactionData(Main)
             }
         } catch (error) {
@@ -134,14 +132,6 @@ function Wall({ navigation }) {
                         show details
                     </Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.textButton} onPress={() => {
-                    setModalType("inputs")
-                    setShowModal(true)
-                }}>
-                    <Text style={{ color: "black", fontWeight: "500" }}>
-                        open Inputs
-                    </Text>
-                </TouchableOpacity> */}
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
                 <TouchableOpacity style={[styles.PartitionView, { borderBottomWidth: Assets ? 2 : 0 }]} onPress={Active}>
@@ -173,23 +163,6 @@ function Wall({ navigation }) {
                                     <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
                                 </> :
                                 <>
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholderTextColor={"black"}
-                                        value={TrasactionData.blockchain_address}
-                                    />
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholderTextColor={"black"}
-                                        value={TrasactionData.private_key}
-                                    />
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholder='sender public key'
-                                        placeholderTextColor={"black"}
-                                        value={TrasactionData.public_key}
-                                    // onChangeText={(sender)=>setsenderpublickey(sender)}
-                                    />
                                     <TextInput
                                         style={styles.textInput}
                                         placeholder='receptant address'
