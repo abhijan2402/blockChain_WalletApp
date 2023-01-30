@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, LogBox, RefreshControl, Image, ScrollView, TextInput, ActivityIndicator } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function PolyGon() {
     const [TrasactionData, setTrasactionData] = useState([])
     const [refreshing, setRefreshing] = useState(false);
@@ -13,11 +15,14 @@ function PolyGon() {
 
     const GetTransactionData = async () => {
         try {
-            const response = await fetch('https://4519-103-175-180-34.in.ngrok.io/chain', {
-                method: 'get',
-            });
-            const json = await response.json();
-            let Newdata = json.chain
+            // const response = await fetch('https://4519-103-175-180-34.in.ngrok.io/chain', {
+            //     method: 'get',
+            // });
+            // const json = await response.json();
+            // let Newdata = json.chain
+            // console.log(Newdata)
+            const data3 = await AsyncStorage.getItem('TransacData')
+            let Newdata = JSON.parse(data3)
             console.log(Newdata)
             setTrasactionData(Newdata)
         } catch (error) {

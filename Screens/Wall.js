@@ -162,9 +162,9 @@ function Wall({ navigation }) {
                         {
                             modalType === 'details' ?
                                 <>
-                                    <Text style={styles.AccountText2}>blockchain_address- {TrasactionData.blockchain_address}</Text>
-                                    <Text style={styles.AccountText2}>private_key- {TrasactionData.private_key}</Text>
-                                    <Text style={styles.AccountText2}>public_key- {TrasactionData.public_key}</Text>
+                                    <Text selectable={true} style={styles.AccountText2}>blockchain_address- {TrasactionData.blockchain_address}</Text>
+                                    <Text selectable={true} style={styles.AccountText2}>private_key- {TrasactionData.private_key}</Text>
+                                    <Text selectable={true} style={styles.AccountText2}>public_key- {TrasactionData.public_key}</Text>
                                 </> :
                                 <>
                                     <TextInput
@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: "black",
         fontWeight: "600",
-        marginHorizontal: 10
+        marginHorizontal: 30,
+        marginVertical: 20
     },
     HeaderView: {
         height: windoHeight / 5,

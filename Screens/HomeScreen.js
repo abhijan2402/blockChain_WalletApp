@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Text, View, Image, TouchableOpacity } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function HomeScreen({ navigation }) {
+    useEffect(() => {
+        GetTransactionData()
+    }, [])
+
+    const GetTransactionData = async () => {
+        try {
+            const response = await fetch('https://4519-103-175-180-34.in.ngrok.io/chain', {
+                method: 'get',
+            });
+            const json = await response.json();
+            let Newdata = JSON.stringify(json.chain)
+            console.log(Newdata)
+            await AsyncStorage.setItem('TransacData', Newdata)
+            // setTrasactionData(Newdata)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <View style={{ margin: 100, alignSelf: "center" }}>
             {/* <View style={{ backgroundColor: "lightgrey", margin: 25, height: 240 }}> */}
@@ -12,7 +31,7 @@ function HomeScreen({ navigation }) {
             <View style={{ marginTop: 30 }}>
                 <Text style={{ fontWeight: "900", color: "black", fontSize: 20 }}>Welcome to ChatBuck</Text>
             </View>
-           
+
             <View style={{ margin: 24, alignItems: "center" }}>
                 <Text style={{ color: "black", fontSize: 15 }}>We are happy for you</Text>
             </View>
