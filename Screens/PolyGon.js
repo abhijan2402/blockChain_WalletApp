@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, LogBox, Image, ScrollView, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, LogBox, RefreshControl, Image, ScrollView, TextInput, ActivityIndicator } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
 function PolyGon() {
     const [TrasactionData, setTrasactionData] = useState([])
+    const [refreshing, setRefreshing] = useState(false);
+
     useEffect(() => {
         GetTransactionData();
         GetTransactionData();
@@ -11,7 +13,7 @@ function PolyGon() {
 
     const GetTransactionData = async () => {
         try {
-            const response = await fetch('https://8887-103-175-180-34.in.ngrok.io/chain', {
+            const response = await fetch('https://4519-103-175-180-34.in.ngrok.io/chain', {
                 method: 'get',
             });
             const json = await response.json();
@@ -23,7 +25,11 @@ function PolyGon() {
         }
     }
     return (
-        <View style={styles.MainView}>
+        <ScrollView style={styles.MainView}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={GetTransactionData} />
+            }
+        >
             <View style={styles.inputContainer}>
                 {/* <TextInput style={styles.TextInput} placeholder='Search...' placeholderTextColor={'black'} onChangeText={searchKey => searchData(searchKey)} /> */}
                 <Text style={{ textAlign: "center", fontSize: 20, color: "black", fontWeight: "800", marginVertical: 10 }}>TrasactionData</Text>
@@ -56,7 +62,7 @@ function PolyGon() {
                             //         <Text>{item.timestamp}</Text>
                             //     </View>
                             // </View>
-                            <View style={{ marginHorizontal: 10, borderWidth: 1, padding: 10, borderRadius: 8, marginVertical: 5 }}>
+                            <View style={{ marginHorizontal: 10, borderWidth: 1, padding: 10, borderRadius: 8, marginVertical: 5 }} key={item.timestamp}>
                                 {/* <View><Text style={{ textAlign: "center", fontWeight: "800", color: "black", fontSize: 20 }}>Data</Text></View> */}
                                 <View>
                                     <Text style={styles.NewCheckedData}>Nonce : {item.nonce}</Text>
@@ -72,7 +78,7 @@ function PolyGon() {
                         ))
                 }
             </ScrollView>
-        </View>
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
