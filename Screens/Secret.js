@@ -120,7 +120,7 @@ function Secret({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.customButton, { backgroundColor: "#4658E6" }]}
-                    onPress={() => navigation.navigate("sixth")}
+                    onPress={() => navigation.navigate("Bottomtab")}
                 >
                     <Text style={{ color: "white", fontWeight: 'bold', }}>Next</Text>
                 </TouchableOpacity>

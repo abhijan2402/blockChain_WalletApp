@@ -11,20 +11,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const App = () => {
-        const Stack = createNativeStackNavigator();
-        return (
-          <NavigationContainer>
-              <Stack.Navigator initialRouteName='sixth' screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name='First' component={CreateWallet} />
-                <Stack.Screen name='Second' component={HomeScreen} />
-                <Stack.Screen name='Third' component={Password} />
-                <Stack.Screen name='Fourth' component={Recovery} />
-                <Stack.Screen name='Fifth' component={Secret} /> */}
-                <Stack.Screen name='sixth' component={Wall} />
-                {/* <Stack.Screen name='Bottomtab' component={Bottomtab} /> */}
-              </Stack.Navigator>
-          </NavigationContainer>
-        );
+  const Stack = createNativeStackNavigator();
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Second' screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='First' component={CreateWallet} />
+        <Stack.Screen name='Second' component={HomeScreen} />
+        <Stack.Screen name='Third' component={Password} />
+        <Stack.Screen name='Fourth' component={Recovery} />
+        <Stack.Screen name='Fifth' component={Secret} />
+        {/* <Stack.Screen name='sixth' component={Wall} /> */}
+        <Stack.Screen name='Bottomtab' component={Bottomtab} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default App

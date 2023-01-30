@@ -1,21 +1,21 @@
-import React , { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, LogBox, Image, ScrollView, TextInput, RefreshControl } from 'react-native';
 const windoWidth = Dimensions.get('window').width;
 const windoHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function Wall({navigation}) {
+function Wall({ navigation }) {
     const [Assets, setAssets] = useState(true)
     const [Activitiies, setActivitiies] = useState(false)
     const [TrasactionData, setTrasactionData] = useState([])
 
-    const [amount,setAmount]=useState('');
-    const [showModal,setShowModal]=useState(false);
-    const [modalType,setModalType]=useState("details");
+    const [amount, setAmount] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState("details");
     const [refreshing, setRefreshing] = useState(false);
 
-    const [receptantaddress,setreceptantaddress]=useState('')
-    const [value,setvalue]=useState('')
+    const [receptantaddress, setreceptantaddress] = useState('')
+    const [value, setvalue] = useState('')
 
     const Active = () => {
         console.log("i am Active")
@@ -33,41 +33,41 @@ function Wall({navigation}) {
         get_user_amt();
     }, [])
 
-    const get_user_amt=async()=>{  
+    const get_user_amt = async () => {
         console.log(JSON.parse(TrasactionData).blockchain_address);
-        fetch('https://dade-103-175-180-34.in.ngrok.io/wallet/amount',{
-            method:"GET",
-            body:JSON.stringify({
-                blockchain_address:"1KFWtKaGm5yv5Y5qfKP5osCVQSScc18nbn"
+        fetch('https://dade-103-175-180-34.in.ngrok.io/wallet/amount', {
+            method: "GET",
+            body: JSON.stringify({
+                blockchain_address: "1KFWtKaGm5yv5Y5qfKP5osCVQSScc18nbn"
             })
         })
-        .then((res)=>res.json())
-        .then(res=>console.log(res))
-        .catch(e=>{
-            console.log(e)
-        })
-    }
-
-    const sendData=async()=>{
-        try {
-            if(receptantaddress==='' || value===''){
-                throw "Enter all fields"
-            }
-            fetch('https://dade-103-175-180-34.in.ngrok.io/transaction',{
-                method:"POST",
-                body:JSON.stringify({
-                    sender_private_key:TrasactionData.private_key,
-                    sender_blockchain_address: TrasactionData.blockchain_address,
-                    recipient_blockchain_address:"1KFWtKaGm5yv5Y5qfKP5osCVQSScc18nbn",
-                    sender_public_key:TrasactionData.public_key,
-                    value:value
-                })
-            })
-            .then((res)=>res.json())
-            .then(res=>alert(res.message))
-            .catch(e=>{
+            .then((res) => res.json())
+            .then(res => console.log(res))
+            .catch(e => {
                 console.log(e)
             })
+    }
+
+    const sendData = async () => {
+        try {
+            if (receptantaddress === '' || value === '') {
+                throw "Enter all fields"
+            }
+            fetch('https://dade-103-175-180-34.in.ngrok.io/transaction', {
+                method: "POST",
+                body: JSON.stringify({
+                    sender_private_key: TrasactionData.private_key,
+                    sender_blockchain_address: TrasactionData.blockchain_address,
+                    recipient_blockchain_address: receptantaddress,
+                    sender_public_key: TrasactionData.public_key,
+                    value: value
+                })
+            })
+                .then((res) => res.json())
+                .then(res => alert(res.message))
+                .catch(e => {
+                    console.log(e)
+                })
         } catch (error) {
             console.log(error);
         }
@@ -105,7 +105,7 @@ function Wall({navigation}) {
             <View style={styles.HeaderView}>
                 <Text style={styles.AccountText1}>Main Account</Text>
                 <Text style={styles.AccountText}>
-                    Amount : {amount} 
+                    Amount : {amount}
                 </Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
@@ -113,39 +113,42 @@ function Wall({navigation}) {
                     <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/128/4208/4208397.png' }} style={styles.imgLogo} />
                     <Text style={{ fontSize: 15, color: "black", fontWeight: "700", marginVertical: 5 }}>Buy</Text>
                 </View>
-                <View style={styles.OptionSection}>
+                <TouchableOpacity style={styles.OptionSection} onPress={() => {
+                    setModalType("inputs")
+                    setShowModal(true)
+                }}>
                     <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/128/3682/3682321.png' }} style={styles.imgLogo} />
                     <Text style={{ fontSize: 15, color: "black", fontWeight: "700", marginVertical: 5 }}>Send</Text>
-                </View>
-                <TouchableOpacity onPress={()=>navigation.navigate('Bottomtab')} style={styles.OptionSection}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.OptionSection}>
                     <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/128/5972/5972857.png' }} style={styles.imgLogo} />
                     <Text style={{ fontSize: 15, color: "black", fontWeight: "700", marginVertical: 5 }}>Snap</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{flexDirection:"row",width:"100%",justifyContent:"space-around"}}>
-                <TouchableOpacity style={styles.textButton} onPress={()=>{
+            <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around" }}>
+                <TouchableOpacity style={styles.textButton} onPress={() => {
                     setModalType('details')
                     setShowModal(true)
                 }}>
-                    <Text style={{color:"black",fontWeight:"500"}}>
+                    <Text style={{ color: "black", fontWeight: "500" }}>
                         show details
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.textButton} onPress={()=>{
+                {/* <TouchableOpacity style={styles.textButton} onPress={() => {
                     setModalType("inputs")
                     setShowModal(true)
                 }}>
-                    <Text style={{color:"black",fontWeight:"500"}}>
+                    <Text style={{ color: "black", fontWeight: "500" }}>
                         open Inputs
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginVertical: 15 }}>
                 <TouchableOpacity style={[styles.PartitionView, { borderBottomWidth: Assets ? 2 : 0 }]} onPress={Active}>
-                    <Text style={{color:"black"}}>Activity</Text>
+                    <Text style={{ color: "black" }}>Activity</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.PartitionView, { borderBottomWidth: Activitiies ? 2 : 0 }]} onPress={DisActive}>
-                    <Text style={{color:"black"}}>Assests</Text>
+                    <Text style={{ color: "black" }}>Assests</Text>
                 </TouchableOpacity>
             </View>
             {
@@ -161,49 +164,52 @@ function Wall({navigation}) {
             <Modal visible={showModal} animationType='slide' transparent={true}>
                 <View style={styles.modeOuter}>
                     <View style={styles.innnerModel}>
-                        
+
                         {
-                            modalType==='details'?
-                            <>
-                                <Text style={styles.AccountText1}>blockchain_address- {TrasactionData.blockchain_address}</Text>
-                                <Text style={styles.AccountText1}>private_key- {TrasactionData.private_key}</Text>
-                                <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
-                            </>:
-                            <>
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholderTextColor={"black"}
-                                    value={TrasactionData.blockchain_address}
+                            modalType === 'details' ?
+                                <>
+                                    <Text style={styles.AccountText1}>blockchain_address- {TrasactionData.blockchain_address}</Text>
+                                    <Text style={styles.AccountText1}>private_key- {TrasactionData.private_key}</Text>
+                                    <Text style={styles.AccountText1}>public_key- {TrasactionData.public_key}</Text>
+                                </> :
+                                <>
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholderTextColor={"black"}
+                                        value={TrasactionData.blockchain_address}
                                     />
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholderTextColor={"black"}
-                                    value={TrasactionData.private_key}
-                                />
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholder='sender public key'
-                                    placeholderTextColor={"black"}
-                                    value={TrasactionData.public_key}
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholderTextColor={"black"}
+                                        value={TrasactionData.private_key}
+                                    />
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholder='sender public key'
+                                        placeholderTextColor={"black"}
+                                        value={TrasactionData.public_key}
                                     // onChangeText={(sender)=>setsenderpublickey(sender)}
-                                />
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholder='receptant address'
-                                    placeholderTextColor={"black"}
-                                    onChangeText={(receptant)=>setreceptantaddress(receptant)}
-                                />
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholder='value'
-                                    placeholderTextColor={"black"}
-                                    onChangeText={(value)=>setvalue(value)}
-                                />
-                            </>
+                                    />
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholder='receptant address'
+                                        placeholderTextColor={"black"}
+                                        onChangeText={(receptant) => setreceptantaddress(receptant)}
+                                    />
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholder='value'
+                                        placeholderTextColor={"black"}
+                                        onChangeText={(value) => setvalue(value)}
+                                    />
+                                    <TouchableOpacity style={[styles.textButton, { backgroundColor: "blue" }]} onPress={sendData}>
+                                        <Text style={{ color: "white" }}>Send Money</Text>
+                                    </TouchableOpacity>
+                                </>
                         }
 
-                        <TouchableOpacity style={styles.textButton} onPress={()=>setShowModal(false)}>
-                            <Text style={{color:"black"}}>
+                        <TouchableOpacity style={styles.textButton} onPress={() => setShowModal(false)}>
+                            <Text style={{ color: "black" }}>
                                 Hide Details
                             </Text>
                         </TouchableOpacity>
@@ -266,32 +272,32 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:"transparent"
+        backgroundColor: "transparent"
     },
     innnerModel: {
         backgroundColor: 'white',
         position: 'absolute',
-        bottom:0,
+        bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
         width: windoWidth,
-        padding:5,
-        backgroundColor:"white",
+        padding: 5,
+        backgroundColor: "white",
         padding: 20,
-        borderTopLeftRadius:10,
-        borderTopRightRadius:10,
-        elevation:10
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        elevation: 10
     },
-    textButton:{
-        backgroundColor:"white",
+    textButton: {
+        backgroundColor: "white",
         alignItems: 'center',
         justifyContent: 'center',
-        padding:10,
-        width:windoWidth/2.5,
-        borderRadius:5,
-        marginHorizontal:10,
-        marginTop:10,
-        elevation:5
+        padding: 10,
+        width: windoWidth / 2.5,
+        borderRadius: 5,
+        marginHorizontal: 10,
+        marginTop: 10,
+        elevation: 5
     },
     textInput: {
         backgroundColor: "white",

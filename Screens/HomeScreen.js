@@ -19,7 +19,7 @@ function HomeScreen({ navigation }) {
                 <Text style={{ color: "black", fontSize: 15 }}>We are happy for you</Text>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Third")} style={{ height: 50, width: 200, marginLeft: 10, marginTop: 20, backgroundColor: '#0047AB', borderRadius: 20, marginBottom: 10 }}>
+            <TouchableOpacity onPress={() => navigation.navigate("First")} style={{ height: 50, width: 200, marginLeft: 10, marginTop: 20, backgroundColor: '#0047AB', borderRadius: 20, marginBottom: 10 }}>
                 <Text style={{ textAlign: 'center', marginTop: 15, color: 'white', fontSize: 15, }}>Get Started</Text>
             </TouchableOpacity>
 
